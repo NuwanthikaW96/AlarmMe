@@ -1,7 +1,7 @@
-import 'package:alarm_me_login/Setup/welcome.dart';
+import 'package:alarm_me/welcome.dart';
 import 'package:flutter/material.dart' show BuildContext, Colors, MaterialApp, StatelessWidget, ThemeData, Widget, runApp;
 
-import 'Setup/sign_in.dart';
+import 'package:alarm_me/sign_in.dart';
 
 
 void main() => runApp(MyApp());
