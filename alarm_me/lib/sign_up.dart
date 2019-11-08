@@ -51,7 +51,7 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             RaisedButton(
               onPressed:signUp ,
-              child: Text('Sign In'),
+              child: Text('Sign Up'),
             ),
           ],
         ),
