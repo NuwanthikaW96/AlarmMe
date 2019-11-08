@@ -62,11 +62,18 @@ class _SignUpPageState extends State<SignUpPage> {
 
   void signUp() async{
     final _form = _formkey.currentState;
-    if (formState.validate()){
-      formState.save();
+    if (_form.validate()){
+      _form.save();
       try{
-        FirebaseUser user = (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password)) as FirebaseUser;
-        user.sendEmailVerification();
+
+        print("hello");
+
+
+        AuthResult res= (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password)) ;
+        FirebaseUser user=res.user;
+        print("hi");
+
+
         //display for the user that we sent an email
         Navigator.of(context).pop();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpPage(
