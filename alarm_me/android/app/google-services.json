@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "408303513254",
-    "firebase_url": "https://alarmme-556e6.firebaseio.com",
-    "project_id": "alarmme-556e6",
-    "storage_bucket": "alarmme-556e6.appspot.com"
+    "project_number": "295067899283",
+    "firebase_url": "https://testing-99902.firebaseio.com",
+    "project_id": "testing-99902",
+    "storage_bucket": "testing-99902.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:408303513254:android:6d19d7c80b66afef718e67",
+        "mobilesdk_app_id": "1:295067899283:android:b0bc49c4750013240ec466",
         "android_client_info": {
           "package_name": "com.example.alarm_me"
         }
       },
       "oauth_client": [
         {
-          "client_id": "408303513254-dj8uo4rspsntfr37h3mlq7ugnsi3kvh1.apps.googleusercontent.com",
+          "client_id": "295067899283-jc5v8gl8602vhhacfnaddh3l94ekto7e.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDFIf0D919bgCStNJzv3ET5peMgKyt4BDA"
+          "current_key": "AIzaSyDty3hD4EtfnPh-qMCqN64jnl12PIdUCBs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "408303513254-dj8uo4rspsntfr37h3mlq7ugnsi3kvh1.apps.googleusercontent.com",
+              "client_id": "295067899283-jc5v8gl8602vhhacfnaddh3l94ekto7e.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
