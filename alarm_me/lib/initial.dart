@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'Interfaces/Interfaces/Home.dart';
-import 'Interfaces/Interfaces/LoginInterface/Login.dart';
-import 'Interfaces/Interfaces/RegisterInterface/Register.dart';
+import 'Interfaces/Home.dart';
+import 'Interfaces/LoginInterface/Login.dart';
+import 'Interfaces/RegisterInterface/Register.dart';
 
 import 'Constatnts/MainTheme.dart';
-import 'Interfaces/Interfaces/SplashScreen.dart';
+import 'Interfaces/SplashScreen.dart';
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
