@@ -1,5 +1,5 @@
-import 'package:alarm_me/Interfaces/Layout/AlarmHolder.dart';
-import 'package:alarm_me/Interfaces/Layout/BaseAppBar.dart';
+import 'package:alarm_me/Layout/AlarmHolder.dart';
+import 'package:alarm_me/Layout/BaseAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
