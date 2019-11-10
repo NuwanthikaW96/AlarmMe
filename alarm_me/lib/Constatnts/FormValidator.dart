@@ -10,17 +10,6 @@ class FormValidator {
     return null;
   }
 
-  static String validatePhoneNumber(String value){
-    String _pattern = r'(^[0-9]*$)';
-    RegExp regExp = new RegExp(_pattern);
-    if(value.length!=10){
-      return "Phone number cannot must have 10 digits";
-    }
-    else if(!regExp.hasMatch(value)){
-      return "Phone number is invalid";
-    }
-    return null;
-  }
 
   static String validateEmail(String value) {
     Pattern pattern =

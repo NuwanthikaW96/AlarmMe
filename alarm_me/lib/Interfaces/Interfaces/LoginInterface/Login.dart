@@ -1,7 +1,10 @@
 import 'package:alarm_me/Constatnts/FormValidator.dart';
 import 'package:alarm_me/Constatnts/c.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import '../Home.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -9,6 +12,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  String _email, _password;
   final _formKey = GlobalKey<FormState>();
   TextEditingController _validationController = new TextEditingController();
   bool _autoActivate = false;
@@ -53,13 +57,12 @@ class _LoginState extends State<Login> {
                   decoration:
                       new InputDecoration(labelText: "Enter the email address"),
                   validator: (value) {
+                    if(value.isEmpty){
+                      return 'Please enter the email';
+                    }
                     return FormValidator.validateEmail(value);
                   },
-                  // onSaved: (String value) {
-                  //   _phoneNumber = value;
-                  //   _phoneNumber = _phoneNumber.substring(1, 10);
-                  //   _phoneNumber = "+94" + _phoneNumber;
-                  // },
+                  onSaved: (value) => _email = value,
                 ),
               ),
               Padding(
@@ -70,13 +73,12 @@ class _LoginState extends State<Login> {
                   decoration:
                       new InputDecoration(labelText: "Enter the password"),
                   validator: (value) {
-                    return FormValidator.validateEmail(value);
+                    if(value.isEmpty){
+                      return 'Please enter the password';
+                    }
+                    return null;
                   },
-                  // onSaved: (String value) {
-                  //   _phoneNumber = value;
-                  //   _phoneNumber = _phoneNumber.substring(1, 10);
-                  //   _phoneNumber = "+94" + _phoneNumber;
-                  // },
+                  onSaved: (value) => _password = value,
                 ),
               ),
               Row(
@@ -123,10 +125,8 @@ class _LoginState extends State<Login> {
                         //     _autoActivate = true;
                         //   }
                         // },
-                        onPressed: () {
-                                Navigator.of(context).pushNamed('/Home');
-                                
-                                print("object1");},
+                        
+                        onPressed:signIN ,
                         // onPressed: (){
                         //   TimePicker timePicker = new TimePicker(context, _height);
                         //   timePicker.build();
@@ -143,6 +143,32 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
+  Future<void> signIN() async{
+    final _form = _formKey.currentState;
+    if (_form.validate()){
+      _form.save();
+      try{
+        AuthResult res= (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)) ;
+        FirebaseUser user=res.user;
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Home(
+            user: user)));
+      }
+      catch(e){
+        print(e.message);
+        Fluttertoast.showToast(
+            msg: e.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 3,
+            backgroundColor: Colors.red[2000],
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+    }
+  }
+  
 }
 
 // class LoginState extends State<Login> {
@@ -518,3 +544,4 @@ class _LoginState extends State<Login> {
 //     );
 //   }
 // }
+

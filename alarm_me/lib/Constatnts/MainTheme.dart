@@ -26,7 +26,6 @@ class MainTheme {
           .copyWith(fontWeight: FontWeight.w600, color: Colors.white)
           .apply(color: Colors.white),
     );
-
   }
 
   static ButtonThemeData _buildButtonTheme(ButtonThemeData base) {
@@ -43,7 +42,6 @@ class MainTheme {
     return base.copyWith(
       focusColor: C.primaryColour,
       hoverColor: C.primaryColour,
-
       focusedErrorBorder: new OutlineInputBorder(
         borderRadius: new BorderRadius.circular(25),
         borderSide: new BorderSide(

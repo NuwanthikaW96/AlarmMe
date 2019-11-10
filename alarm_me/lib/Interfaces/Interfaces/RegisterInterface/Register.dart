@@ -2,7 +2,8 @@ import 'package:alarm_me/Constatnts/FormValidator.dart';
 import 'package:alarm_me/Constatnts/c.dart';
 import 'package:alarm_me/Interfaces/Interfaces/LoginInterface/Login.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  String _email, _password, _cpassword;
   final _formKey = GlobalKey<FormState>();
   bool _autoActivate = false;
 
@@ -54,10 +56,14 @@ class _RegisterState extends State<Register> {
                   decoration: new InputDecoration(
                     labelText: "Enter Your Email Address",
                   ),
-                  keyboardType: TextInputType.number,
+                  keyboardType: TextInputType.emailAddress,
                   validator: (value) {
+                    if(value.isEmpty){
+                      return 'Please enter an email';
+                    }
                     return FormValidator.validateEmail(value);
                   },
+                  onSaved: (value) => _email = value,
                   // onSaved: (value) {
                   //   //print(value);
                   //   this._phoneNumber = value;
@@ -72,8 +78,12 @@ class _RegisterState extends State<Register> {
                     labelText: "Enter Your Password",
                   ),
                   validator: (value) {
-                    return FormValidator.validatePassword(value);
+                    if(value.length < 6){
+                      return 'Your password needs to be atleast 6 characters';
+                    }
+                    return null;
                   },
+                  onSaved: (value) => _password = value,
                   // onSaved: (String value) => _userName = value,
                 ),
               ),
@@ -82,11 +92,10 @@ class _RegisterState extends State<Register> {
                 child: TextFormField(
                   obscureText: true,
                   decoration: new InputDecoration(
-                    labelText: "Re Enter Your Password",
+                    labelText: "Re-Enter Your Password",
                   ),
-                  validator: (value) {
-                    return FormValidator.validatePassword(value);
-                  },
+                  
+                  onSaved: (value) => _cpassword = value,
                   // onSaved: (String value) => _userName = value,
                 ),
               ),
@@ -104,9 +113,8 @@ class _RegisterState extends State<Register> {
                     //     _autoActivate = true;
                     //   }
                     // },
-                    onPressed: () {
-                      null;
-                    },
+                    
+                    onPressed: signUp,
 
                     child: Text('Register'),
                   ),
@@ -123,6 +131,51 @@ class _RegisterState extends State<Register> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
+
+  void signUp() async{
+    final _form = _formKey.currentState;
+    if (_form.validate()){
+      _form.save();
+      try{
+
+        if(_password == _cpassword){
+          AuthResult res= (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password)) ;
+          FirebaseUser user = res.user;
+
+        //display for the user that we sent an email
+        Navigator.of(context).pop();
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login(
+            )));
+        }
+        else {
+          Fluttertoast.showToast(
+              msg: "Passwords do not match!",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              timeInSecForIos: 3,
+              backgroundColor: Colors.red[2000],
+              textColor: Colors.white,
+              fontSize: 16.0
+          );
+        }
+      }
+      catch(e){
+        print(e.message);
+        Fluttertoast.showToast(
+            msg: e.message,
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 3,
+            backgroundColor: Colors.red[2000],
+            textColor: Colors.white,
+            fontSize: 16.0
+        );
+      }
+      //todo login to firebase
+    }
+
+  }
+
 }
 
 // class RegisterState extends State<Register> {

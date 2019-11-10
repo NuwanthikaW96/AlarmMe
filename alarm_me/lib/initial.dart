@@ -1,3 +1,4 @@
+import 'package:alarm_me/Interfaces/Interfaces/SplashScreen.dart';
 import 'package:flutter/material.dart';
 
 import 'Constatnts/MainTheme.dart';
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: MainTheme.buildLightTheme(),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
-      home: AlarmInterface(),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
 
       routes: <String,WidgetBuilder>{
