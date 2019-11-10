@@ -2,8 +2,11 @@ import 'package:alarm_me/Layout/AlarmHolder.dart';
 import 'package:alarm_me/Layout/BaseAppBar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Home extends StatefulWidget {
+
+  final FirebaseUser user;
   @override
   _HomeState createState() {
     return _HomeState();
@@ -20,6 +23,7 @@ class _HomeState extends State<Home> {
           AlarmHolder(),
         ],
       ),
+
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.alarm_add),
         onPressed: () {
