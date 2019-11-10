@@ -17,6 +17,7 @@ class AlarmHolder extends StatelessWidget {
         //Should use the List Tile , And the content of this Widget should go inside that widgets child.
 
         child: new Row(
+          
           children: <Widget>[
             new Text("9:10 PM"),
             new Text("Location : Moratuwa")

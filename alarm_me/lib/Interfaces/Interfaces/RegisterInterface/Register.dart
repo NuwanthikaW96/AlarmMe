@@ -1,7 +1,8 @@
 import 'package:alarm_me/Constatnts/FormValidator.dart';
 import 'package:alarm_me/Constatnts/c.dart';
-import 'package:alarm_me/Interfaces/LoginInterface/Login.dart';
+import 'package:alarm_me/Interfaces/Interfaces/LoginInterface/Login.dart';
 import 'package:flutter/material.dart';
+
 
 class Register extends StatefulWidget {
   @override

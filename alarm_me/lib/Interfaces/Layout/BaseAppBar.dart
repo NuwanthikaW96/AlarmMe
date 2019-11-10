@@ -46,13 +46,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           tooltip: "Profile",
         ),
         IconButton(
-          icon: Icon(Icons.settings),
-          onPressed: () {
-            null;
-          },
-          tooltip: "Settings",
-        ),
-        IconButton(
           icon: Icon(Icons.help),
           onPressed: () {
             null;

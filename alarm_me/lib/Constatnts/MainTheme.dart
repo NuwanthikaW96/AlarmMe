@@ -10,7 +10,7 @@ class MainTheme {
       secondaryHeaderColor: C.secondaryColour,
       buttonTheme: _buildButtonTheme(base.buttonTheme),
       primaryTextTheme: _buildTextTheme(base.primaryTextTheme),
-      accentColor: Colors.yellowAccent,
+      accentColor: C.primaryColour,
       scaffoldBackgroundColor: Colors.white,
       inputDecorationTheme:
           _buildInputDecorationTheme(base.inputDecorationTheme),
@@ -26,6 +26,7 @@ class MainTheme {
           .copyWith(fontWeight: FontWeight.w600, color: Colors.white)
           .apply(color: Colors.white),
     );
+
   }
 
   static ButtonThemeData _buildButtonTheme(ButtonThemeData base) {
@@ -42,6 +43,7 @@ class MainTheme {
     return base.copyWith(
       focusColor: C.primaryColour,
       hoverColor: C.primaryColour,
+
       focusedErrorBorder: new OutlineInputBorder(
         borderRadius: new BorderRadius.circular(25),
         borderSide: new BorderSide(
@@ -64,6 +66,13 @@ class MainTheme {
           width: 2,
         ),
       ),
+      disabledBorder: new OutlineInputBorder(
+        borderSide: new BorderSide(
+          color: Colors.black38,
+          style: BorderStyle.solid,
+          width: 2,
+        ),
+      ),
       focusedBorder: new OutlineInputBorder(
         borderRadius: new BorderRadius.circular(25),
         borderSide: new BorderSide(
@@ -75,6 +84,10 @@ class MainTheme {
       labelStyle: new TextStyle(
         color: C.primaryColour,
       ),
+      hintStyle: new TextStyle(
+        color: C.secondaryColour,
+      )
+      
     );
   }
 
