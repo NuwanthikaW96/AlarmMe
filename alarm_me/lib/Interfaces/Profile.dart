@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:alarm_me/widgets/info_card.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:alarm_me/Interfaces/LoginInterface/Login.dart';
 
 const profile_image = 'images/logo.jpg';
 const name = 'Thuvarahan';
 const email = 'thuva@gmail.com';
 const phone = '0771234567';
 
-class ProfilePage extends StatelessWidget {
+class Profile extends StatefulWidget {
+  @override
+  _ProfileState createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  @override
+  // void setState(fn) {
+  //   super.setState(fn);
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,13 +63,25 @@ class ProfilePage extends StatelessWidget {
                   color: Colors.teal.shade700,
                 ),
               ),
-              InfoCard(
-                text: email,
-                icon: Icons.email,
+              FutureBuilder(
+                future: FirebaseAuth.instance.currentUser(),
+                builder: (context, AsyncSnapshot<FirebaseUser> snapshot) {
+                  if (snapshot.hasData) {
+                    return InfoCard(
+                      text: snapshot.data.email,
+                      icon: Icons.email,
+                    );
+                  }
+                  else {
+                    return Text('Loading...');
+                  }
+                },
               ),
-              InfoCard(
-                text: phone,
-                icon: Icons.phone,
+              FlatButton(
+                child: Text(
+                  "Sign Out",
+                ),
+                onPressed: _signOut,
               )
             ],
           ),
@@ -66,4 +89,15 @@ class ProfilePage extends StatelessWidget {
       ),
     );
   }
+
+  Future <void> _signOut()  async{
+    await FirebaseAuth.instance.signOut();
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Login()));
+  }
+
 }
+
+
+
+  

@@ -1,3 +1,4 @@
+import 'package:alarm_me/Interfaces/Profile.dart';
 import 'package:flutter/material.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -41,7 +42,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         IconButton(
           icon: Icon(Icons.account_circle),
           onPressed: (){
-            null;
+            Navigator.push(context, MaterialPageRoute(builder: (context) => Profile()));
           },
           tooltip: "Profile",
         ),
