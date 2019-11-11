@@ -1,3 +1,6 @@
+import 'package:alarm_me/Classes/Alarm.dart';
+import 'package:alarm_me/Classes/AlarmLibrary.dart';
+import 'package:alarm_me/Interfaces/Interfaces/AlarmInterfaceEdit/AlarmInterfaceEdit.dart';
 import 'package:alarm_me/Interfaces/Layout/BaseAppBar.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +23,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    print (C.user.email + "dsandjadajdaksjhkdjaks");
+    print(C.user.email + "dsandjadajdaksjhkdjaks");
     return Scaffold(
       appBar: BaseAppBar(),
       body: StreamBuilder(
@@ -34,7 +37,7 @@ class _HomeState extends State<Home> {
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
                 print("addasdaadasdasd");
-                return _buildListItem(snapshot.data.documents[index]);
+                return _buildListItem(snapshot.data.documents[index],context);
 
                 // print (snapshot.data.document.length);
               });
@@ -71,10 +74,23 @@ class _HomeState extends State<Home> {
 //   );
 // }
 
-
-
-Widget _buildListItem(DocumentSnapshot document) {
+Widget _buildListItem(DocumentSnapshot document, BuildContext context) {
+  String _dId = document.documentID;
   GeoPoint _geoPoint = document['location'];
+  String _name = document['name'];
+  bool _enabled = document['enabled'];
+  String _uid = document['uid'];
+  String _reminder = document['reminder'];
+
+  Alarm _alarm = new Alarm(
+      dId: _dId,
+      enabled: _enabled,
+      geoPoint: _geoPoint,
+      name: _name,
+      reminder: _reminder,
+      uid: _uid);
+  AlarmLibrary.addAlarm(_alarm);
+
   return Padding(
     padding: const EdgeInsets.all(8.0),
     child: Container(
@@ -90,6 +106,10 @@ Widget _buildListItem(DocumentSnapshot document) {
             new Text("Longitude :" + _geoPoint.longitude.toString()),
           ],
         ),
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AlarmInterfaceEdit(alarm: _alarm))),
       ),
     ),
   );

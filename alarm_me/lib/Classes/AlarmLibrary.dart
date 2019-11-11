@@ -1,7 +1,7 @@
 import 'package:alarm_me/Classes/Alarm.dart';
 
 class AlarmLibrary{
-  static List<Alarm> _alarms;
+  static List<Alarm> _alarms = new List<Alarm>();
 
   static void addAlarm(Alarm alarm){
     _alarms.add(alarm);

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'Constatnts/MainTheme.dart';
 import 'Constatnts/c.dart';
-import 'Interfaces/Interfaces/AlarmInterface/AlarmInterface.dart';
+import 'Interfaces/Interfaces/AlarmInterfaceEdit/AlarmInterfaceEdit.dart';
 import 'Interfaces/Interfaces/Home.dart';
 import 'Interfaces/Interfaces/LoginInterface/Login.dart';
 import 'Interfaces/Interfaces/RegisterInterface/Register.dart';
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Alarm Me',
       theme: MainTheme.buildLightTheme(),
       //home: MyHomePage(title: 'Flutter Demo Home Page'),
       home: SplashScreen(),

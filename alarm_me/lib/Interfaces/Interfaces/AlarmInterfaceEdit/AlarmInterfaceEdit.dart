@@ -1,25 +1,42 @@
-
-
 import 'package:alarm_me/Constatnts/c.dart';
 import 'package:alarm_me/Interfaces/Layout/BaseAppBar.dart';
 import 'package:flutter/material.dart';
 
-import 'AlarmInterfaceHandler.dart';
+import '../../../Classes/Alarm.dart';
+import 'AlarmInterfaceHandlerEdit.dart';
 
-class AlarmInterface extends StatefulWidget {
+class AlarmInterfaceEdit extends StatefulWidget {
+  final Alarm alarm;
+  AlarmInterfaceEdit({this.alarm});
   @override
-  _AlarmInterfaceState createState() => _AlarmInterfaceState();
+  _AlarmInterfaceStateEdit createState() => _AlarmInterfaceStateEdit(alarm: this.alarm);
 }
 
-class _AlarmInterfaceState extends State<AlarmInterface> {
+class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
   //** Like this call the interface handlers in each respective pages
 
-  AlarmInterfaceHandler _alarmInterfaceHandler = new AlarmInterfaceHandler();
+  Alarm alarm;
+  AlarmInterfaceHandler _alarmInterfaceHandler;
+  TextEditingController _nameController;
+  TextEditingController _reminderController;
+  bool _temp;
+  _AlarmInterfaceStateEdit({this.alarm}){
+    //this.alarm = alarm;
+    this._alarmInterfaceHandler = new AlarmInterfaceHandler(alarm:this.alarm);
+    this._nameController = new TextEditingController();
+    _nameController.text = alarm.getName;
+    this._reminderController = new TextEditingController();
+    _reminderController.text = alarm.getReminder;
+    this._temp = alarm.getEnabled;
+    print(alarm.getDid + "we;owqe;owqk;eewqeqwpeoqpw[eo[pw");
+    
+  }
 
-  bool _temp = true;
+  
 
   @override
   Widget build(BuildContext context) {
+    bool _temp = alarm.getEnabled;
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -28,7 +45,7 @@ class _AlarmInterfaceState extends State<AlarmInterface> {
         child: Column(
           children: <Widget>[
             SizedBox(
-              height: _height / 2.19,
+              height: _height / 2.5,
               width: _width,
             ),
             Divider(
@@ -42,10 +59,12 @@ class _AlarmInterfaceState extends State<AlarmInterface> {
                 width: _width / 1.25,
                 height: _height / 11,
                 child: TextFormField(
-                  enabled: _temp,
+                  enabled: this._temp,
                   decoration: new InputDecoration(
                     hintText: "Enter the Alarm Name",
                   ),
+                  controller: _nameController,
+                  //initialValue: this.alarm.getName,
                 ),
               ),
             ),
@@ -57,9 +76,9 @@ class _AlarmInterfaceState extends State<AlarmInterface> {
                   SizedBox(
                     width: (_width / 2.5),
                     child: RaisedButton(
-                      onPressed: () => _alarmInterfaceHandler.setLocation(context),
+                      onPressed: () => null,//_alarmInterfaceHandler.setLocation(context),
                       child: Text(
-                        'Set Location',
+                        'Edit Location',
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -69,8 +88,8 @@ class _AlarmInterfaceState extends State<AlarmInterface> {
                     child: SizedBox(
                       width: _width / 2.5,
                       child: RaisedButton(
-                        onPressed: () {
-                          null;
+                        onPressed: () async{
+                          await _alarmInterfaceHandler.deleteAlarm(context);
                           print("object1");
                         },
                         child: Text('Delete'),
@@ -91,10 +110,10 @@ class _AlarmInterfaceState extends State<AlarmInterface> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  new Text("Enable the alarm "),
+                  new Text("Enable the alarm"),
                   Switch(
-                    onChanged: (val) => setState(() => _temp = val),
-                    value: _temp,
+                    onChanged: (val) => setState(() => this._temp = val),
+                    value: this._temp,
                     activeColor: C.primaryColour,
                   ),
                 ],
@@ -108,15 +127,12 @@ class _AlarmInterfaceState extends State<AlarmInterface> {
                   SizedBox(
                     width: _width / 1.25,
                     child: TextFormField(
-                      enabled: _temp,
+                      enabled: this._temp,
                       decoration: new InputDecoration(
-                          hintText: "Enter the Reminder Text"),
+                          hintText: "Edit the Reminder Text"),
+                      controller: _reminderController,
+                      //initialValue: this.alarm.getReminder,
                     ),
-                  ),
-                  Switch(
-                    onChanged: (val) => setState(() => _temp = val),
-                    value: _temp,
-                    activeColor: C.primaryColour,
                   ),
                 ],
               ),
