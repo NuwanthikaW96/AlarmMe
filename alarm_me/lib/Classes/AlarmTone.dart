@@ -1,9 +1,9 @@
 
 import 'package:assets_audio_player/assets_audio_player.dart';
-class Alarm{
+class AlarmTone{
 String remainder;
 final AssetsAudioPlayer assetsAudioPlayer = AssetsAudioPlayer();
-Alarm(this.remainder);
+AlarmTone(this.remainder);
 
 void open() {
     assetsAudioPlayer.open(

@@ -2,10 +2,12 @@ import 'package:alarm_me/Classes/Alarm.dart';
 import 'package:alarm_me/Classes/AlarmLibrary.dart';
 import 'package:alarm_me/Interfaces/Interfaces/AlarmInterfaceEdit/AlarmInterfaceEdit.dart';
 import 'package:alarm_me/Interfaces/Layout/BaseAppBar.dart';
+import 'package:background_location/background_location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../Constatnts/c.dart';
 import 'AlarmInterfaceNew/AlarmInterfaceNew.dart';
@@ -22,10 +24,49 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
+  String latitude = "waiting...";
+  String longitude = "waiting...";
+  //LatLng ourLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    print("""\n
+    Latitude:  $latitude
+    Longitude: $longitude
+    """);
+
+    BackgroundLocation.startLocationService();
+    BackgroundLocation.getLocationUpdates((location) {
+      setState(() {
+        this.latitude = location.latitude.toString();
+        this.longitude = location.longitude.toString();
+        GeoPoint _temp = new GeoPoint(location.latitude, location.longitude);
+        AlarmLibrary.check(_temp, _scaffoldKey);
+        // LatLng _temp = LatLng(double.parse(latitude), double.parse(longitude));
+        // if (checkIfArrived(_temp, _pos2.target)) {
+        //   this.check = "Arrived";
+        // } else {
+        //   this.check = "Still Waiting";
+        // }
+      });
+
+      print("""\n
+    Latitude:  $latitude
+    Longitude: $longitude
+    """);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     print(C.user.email + "dsandjadajdaksjhkdjaks");
     return Scaffold(
+      key: _scaffoldKey,
       appBar: BaseAppBar(),
       body: StreamBuilder(
         stream: Firestore.instance
@@ -38,7 +79,7 @@ class _HomeState extends State<Home> {
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
                 print("addasdaadasdasd");
-                return _buildListItem(snapshot.data.documents[index],context);
+                return _buildListItem(snapshot.data.documents[index], context);
 
                 // print (snapshot.data.document.length);
               });
@@ -47,7 +88,8 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.alarm_add),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => AlarmInterfaceNew()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AlarmInterfaceNew()));
         },
         tooltip: "Add an Alarm",
       ),
