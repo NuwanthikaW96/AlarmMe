@@ -77,9 +77,9 @@ class _HomeState extends State<Home> {
 Widget _buildListItem(DocumentSnapshot document, BuildContext context) {
   String _dId = document.documentID;
   GeoPoint _geoPoint = document['location'];
-  String _name = document['name'];
+  String _name = document['Name'];
   bool _enabled = document['enabled'];
-  String _uid = document['uid'];
+  String _uid = document['UID'];
   String _reminder = document['reminder'];
 
   Alarm _alarm = new Alarm(
@@ -99,7 +99,7 @@ Widget _buildListItem(DocumentSnapshot document, BuildContext context) {
         borderRadius: BorderRadius.circular(5.0),
       ),
       child: new ListTile(
-        title: Center(child: new Text(document['name'])),
+        title: Center(child: new Text(document['Name'])),
         subtitle: Column(
           children: <Widget>[
             new Text("Latitude :" + _geoPoint.latitude.toString()),

@@ -1,4 +1,7 @@
 import 'package:alarm_me/Classes/Alarm.dart';
+import 'package:alarm_me/Classes/AlarmLibrary.dart';
+import 'package:alarm_me/Constatnts/c.dart';
+import 'package:alarm_me/Interfaces/Interfaces/Home.dart';
 import 'package:alarm_me/Interfaces/Layout/BaseAlertDialog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +26,15 @@ class AlarmInterfaceHandler {
           'reminder': reminder,
           'enabled': enabled
         });
+        AlarmLibrary.updateAlarm(
+            alarm,
+            new Alarm(
+                dId: alarm.getDid,
+                enabled: enabled,
+                geoPoint: geoPoint,
+                name: name,
+                reminder: reminder,
+                uid: uid));
         showDialog(
           context: context,
           child: BaseAlertDialog(
@@ -30,8 +42,10 @@ class AlarmInterfaceHandler {
             title: "Location is Set",
             content: "Your Location Alarm is Edited Successfully!",
             yesOnPressed: () {
-              Navigator.pop(context);
-              Navigator.of(context).pushNamed('/Home');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => Home(
+            user: C.user)));
+              //Navigator.pop(context);
+              
             },
           ),
         );
@@ -52,7 +66,8 @@ class AlarmInterfaceHandler {
         child: BaseAlertDialog(
           yes: "OK",
           title: "Fields are Empty",
-          content: "Name or Remider Field is Empty.\nPlease Fill them and Try Again!",
+          content:
+              "Name or Remider Field is Empty.\nPlease Fill them and Try Again!",
           yesOnPressed: () {
             Navigator.pop(context);
           },

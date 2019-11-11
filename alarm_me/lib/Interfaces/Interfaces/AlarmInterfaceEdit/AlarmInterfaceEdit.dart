@@ -45,7 +45,7 @@ class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
     );
     setState(() {
       _pos = _position;
-     // _geoPoint = new GeoPoint(_pos.target.latitude, _pos.target.longitude);
+      _geoPoint = new GeoPoint(_pos.target.latitude, _pos.target.longitude);
     });
   }
 
@@ -73,8 +73,8 @@ class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
     print(alarm.getDid + "we;owqe;owqk;eewqeqwpeoqpw[eo[pw");
 
     _center = LatLng(alarm.geoPoint.latitude, alarm.geoPoint.longitude);
-    _pos = new CameraPosition(target: _center, zoom: 8);
-    _pos2 = new CameraPosition(target: _center, zoom: 8);
+    _pos = new CameraPosition(target: _center, zoom: 13);
+    _pos2 = new CameraPosition(target: _center, zoom: 13);
     _markers = Set<Marker>.of([
     Marker(
       draggable: true,
@@ -91,7 +91,7 @@ class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
 
   @override
   Widget build(BuildContext context) {
-    bool _temp = alarm.getEnabled;
+    //bool _temp = alarm.getEnabled;
     double _height = MediaQuery.of(context).size.height;
     double _width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -141,8 +141,7 @@ class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
                   SizedBox(
                     width: (_width / 2.5),
                     child: RaisedButton(
-                      onPressed: () =>null,
-                          //_alarmInterfaceHandler.setLocation(context,),
+                      onPressed: () =>_alarmInterfaceHandler.editLocation(context,alarm.getUid,_geoPoint,_nameController.text,_reminderController.text,this._temp),
                       child: Text(
                         'Edit Location',
                         textAlign: TextAlign.center,
