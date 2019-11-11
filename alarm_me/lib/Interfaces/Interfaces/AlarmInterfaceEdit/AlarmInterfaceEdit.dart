@@ -1,6 +1,8 @@
 import 'package:alarm_me/Constatnts/c.dart';
 import 'package:alarm_me/Interfaces/Layout/BaseAppBar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../Classes/Alarm.dart';
 import 'AlarmInterfaceHandlerEdit.dart';
@@ -9,30 +11,83 @@ class AlarmInterfaceEdit extends StatefulWidget {
   final Alarm alarm;
   AlarmInterfaceEdit({this.alarm});
   @override
-  _AlarmInterfaceStateEdit createState() => _AlarmInterfaceStateEdit(alarm: this.alarm);
+  _AlarmInterfaceStateEdit createState() =>
+      _AlarmInterfaceStateEdit(alarm: this.alarm);
 }
 
 class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
   //** Like this call the interface handlers in each respective pages
+
+  GoogleMapController mapController;
+
+  LatLng _center;
+
+  CameraPosition _pos;
+  CameraPosition _pos2;
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  void _updatePosition(CameraPosition _position) {
+    print(
+        'inside updatePosition ${_position.target.latitude} ${_position.target.longitude}');
+    Marker marker = _markers.firstWhere((p) => p.markerId == MarkerId('Marker'),
+        orElse: () => null);
+
+    _markers.remove(marker);
+    _markers.add(
+      Marker(
+        markerId: MarkerId('Marker'),
+        position: LatLng(_position.target.latitude, _position.target.longitude),
+        draggable: true,
+      ),
+    );
+    setState(() {
+      _pos = _position;
+     // _geoPoint = new GeoPoint(_pos.target.latitude, _pos.target.longitude);
+    });
+  }
+
+  var _markers;
 
   Alarm alarm;
   AlarmInterfaceHandler _alarmInterfaceHandler;
   TextEditingController _nameController;
   TextEditingController _reminderController;
   bool _temp;
-  _AlarmInterfaceStateEdit({this.alarm}){
+  GeoPoint _geoPoint;
+
+  _AlarmInterfaceStateEdit({this.alarm}) {
     //this.alarm = alarm;
-    this._alarmInterfaceHandler = new AlarmInterfaceHandler(alarm:this.alarm);
+    _geoPoint = alarm.geoPoint;
+
+    this._alarmInterfaceHandler = new AlarmInterfaceHandler(alarm: this.alarm);
+
     this._nameController = new TextEditingController();
     _nameController.text = alarm.getName;
     this._reminderController = new TextEditingController();
     _reminderController.text = alarm.getReminder;
+
     this._temp = alarm.getEnabled;
     print(alarm.getDid + "we;owqe;owqk;eewqeqwpeoqpw[eo[pw");
-    
-  }
 
-  
+    _center = LatLng(alarm.geoPoint.latitude, alarm.geoPoint.longitude);
+    _pos = new CameraPosition(target: _center, zoom: 8);
+    _pos2 = new CameraPosition(target: _center, zoom: 8);
+    _markers = Set<Marker>.of([
+    Marker(
+      draggable: true,
+      position: _center,
+      onTap: () {
+        print("asasas");
+      },
+      markerId: MarkerId('Marker'),
+    ),
+  ]);
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +102,16 @@ class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
             SizedBox(
               height: _height / 2.5,
               width: _width,
+              child: GoogleMap(
+                onMapCreated: _onMapCreated,
+                compassEnabled: true,
+                markers: _markers,
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: 19.0,
+                ),
+                onCameraMove: ((_position) => _updatePosition(_position)),
+              ),
             ),
             Divider(
               color: C.primaryColour,
@@ -76,7 +141,8 @@ class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
                   SizedBox(
                     width: (_width / 2.5),
                     child: RaisedButton(
-                      onPressed: () => null,//_alarmInterfaceHandler.setLocation(context),
+                      onPressed: () =>null,
+                          //_alarmInterfaceHandler.setLocation(context,),
                       child: Text(
                         'Edit Location',
                         textAlign: TextAlign.center,
@@ -88,7 +154,7 @@ class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
                     child: SizedBox(
                       width: _width / 2.5,
                       child: RaisedButton(
-                        onPressed: () async{
+                        onPressed: () async {
                           await _alarmInterfaceHandler.deleteAlarm(context);
                           print("object1");
                         },
