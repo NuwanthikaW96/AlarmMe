@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../Constatnts/c.dart';
+import 'AlarmInterfaceNew/AlarmInterfaceNew.dart';
 
 class Home extends StatefulWidget {
   final FirebaseUser user;
@@ -46,7 +47,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.alarm_add),
         onPressed: () {
-          null;
+          Navigator.push(context, MaterialPageRoute(builder: (context) => AlarmInterfaceNew()));
         },
         tooltip: "Add an Alarm",
       ),

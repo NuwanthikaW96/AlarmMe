@@ -111,6 +111,8 @@ class AlarmInterfaceHandler {
       return true;
     }
   }
+
+
 }
 
 //and here we should have functions as well to check if the alarm name and reminder text(if enabled) is null
