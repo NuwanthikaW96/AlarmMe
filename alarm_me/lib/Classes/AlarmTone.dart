@@ -1,4 +1,4 @@
-// import 'package:flutter/material.dart';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 class Alarm{
 String remainder;
@@ -9,7 +9,7 @@ void open() {
     assetsAudioPlayer.open(
       AssetsAudio(
         asset: 'ringTone.mp3',
-        folder: "assets/configuration_files/ring_tones/",
+        folder: "assets/ring_tones/",
       ),
     );
   }
