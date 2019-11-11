@@ -1,8 +1,7 @@
+import 'package:alarm_me/Classes/Alarm.dart';
 import 'package:alarm_me/Constatnts/c.dart';
 import 'package:alarm_me/Interfaces/Layout/BaseAppBar.dart';
 import 'package:flutter/material.dart';
-
-import '../../../Classes/Alarm.dart';
 import 'AlarmInterfaceHandlerEdit.dart';
 
 class AlarmInterface extends StatefulWidget {
