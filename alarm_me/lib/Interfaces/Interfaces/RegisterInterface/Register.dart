@@ -2,7 +2,6 @@ import 'package:alarm_me/Constatnts/FormValidator.dart';
 import 'package:alarm_me/Constatnts/c.dart';
 import 'package:alarm_me/Interfaces/Interfaces/LoginInterface/Login.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Register extends StatefulWidget {
@@ -139,9 +138,6 @@ class _RegisterState extends State<Register> {
       try{
 
         if(_password == _cpassword){
-          AuthResult res= (await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password)) ;
-          FirebaseUser user = res.user;
-
         //display for the user that we sent an email
         Navigator.of(context).pop();
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Login(

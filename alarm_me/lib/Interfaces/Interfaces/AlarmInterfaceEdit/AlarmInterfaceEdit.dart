@@ -23,7 +23,6 @@ class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
   LatLng _center;
 
   CameraPosition _pos;
-  CameraPosition _pos2;
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -74,7 +73,6 @@ class _AlarmInterfaceStateEdit extends State<AlarmInterfaceEdit> {
 
     _center = LatLng(alarm.geoPoint.latitude, alarm.geoPoint.longitude);
     _pos = new CameraPosition(target: _center, zoom: 13);
-    _pos2 = new CameraPosition(target: _center, zoom: 13);
     _markers = Set<Marker>.of([
     Marker(
       draggable: true,

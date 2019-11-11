@@ -14,7 +14,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String _email, _password;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _validationController = new TextEditingController();
   bool _autoActivate = false;
 
   @override
