@@ -14,8 +14,8 @@ class MapProxy {
     double _currentLatitude = double.parse(currLatLon.latitude.toStringAsFixed(_precision));
     double _currentLongtitude = double.parse(currLatLon.longitude.toStringAsFixed(_precision));
     if ((_latitude == _currentLatitude) && (_longtitude == _currentLongtitude)){
+           
 
-      
 
     }
   }
