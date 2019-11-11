@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class C {
@@ -6,6 +7,7 @@ class C {
   static final Color secondaryColour = Color.fromRGBO(100, 14, 14, 1);
   static final Color textColour = Colors.white;
   static final String imageLink = "assets/images/";
+  static FirebaseUser user;
 
   static MyBehavior buildViewportChrome(){
     return MyBehavior();

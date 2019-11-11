@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../Constatnts/c.dart';
 
 class Home extends StatefulWidget {
   final FirebaseUser user;
 
   Home({this.user});
-  
+
   @override
   _HomeState createState() {
     return _HomeState();
@@ -19,24 +20,26 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    print (C.user.email + "dsandjadajdaksjhkdjaks");
     return Scaffold(
       appBar: BaseAppBar(),
       body: StreamBuilder(
         stream: Firestore.instance
-        .collection('Alarms')
-        .where('UID', isEqualTo: widget.user.uid)
-        .snapshots(),
+            .collection('Alarms')
+            .where('UID', isEqualTo: widget.user.uid)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return new Text('Loading...');
           return new ListView.builder(
-            itemCount: snapshot.data.documents.length,
-            itemBuilder: (context, index) =>
-              _buildListItem(snapshot.data.documents[index]),
-          );
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (context, index) {
+                print("addasdaadasdasd");
+                return _buildListItem(snapshot.data.documents[index]);
+
+                // print (snapshot.data.document.length);
+              });
         },
       ),
-      
-
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.alarm_add),
         onPressed: () {
@@ -48,32 +51,49 @@ class _HomeState extends State<Home> {
   }
 }
 
+// Widget _fireSearch(String queryText) {
+//   return new StreamBuilder(
+//     stream: Firestore.instance
+//         .collection('Alarms')
+//         .where('UID', isEqualTo: queryText)
+//         .snapshots(),
+//     builder: (context, snapshot) {
+//       if (!snapshot.hasData) return new Text('Loading...');
+//       return new ListView.builder(
+//           itemCount: snapshot.data.documents.length,
+//           itemBuilder: (context, index) {
+//             print(snapshot.data.document[index].toString());
+//             //print (snapshot.data.documents.length);
+//             print("dsajklajdklasdksa");
+//             return _buildListItem(snapshot.data.documents[index]);
+//           });
+//     },
+//   );
+// }
 
 
-Widget _fireSearch(String queryText) {
-  return new StreamBuilder(
-    stream: Firestore.instance
-    .collection('Alarms')
-    .where('UID', isEqualTo: queryText)
-    .snapshots(),
-    builder: (context, snapshot) {
-      if (!snapshot.hasData) return new Text('Loading...');
-      return new ListView.builder(
-        itemCount: snapshot.data.documents.length,
-        itemBuilder: (context, index) =>
-            _buildListItem(snapshot.data.documents[index]),
-      );
-    },
-  );
-}
 
 Widget _buildListItem(DocumentSnapshot document) {
-  return new ListTile(
-    title: document['title'],
-    subtitle: document['subtitle'],
+  GeoPoint _geoPoint = document['location'];
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: C.primaryColour),
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: new ListTile(
+        title: Center(child: new Text(document['name'])),
+        subtitle: Column(
+          children: <Widget>[
+            new Text("Latitude :" + _geoPoint.latitude.toString()),
+            new Text("Longitude :" + _geoPoint.longitude.toString()),
+          ],
+        ),
+      ),
+    ),
   );
 }
-
 
 // class MyHomePage extends StatefulWidget {
 //   @override
@@ -148,4 +168,3 @@ Widget _buildListItem(DocumentSnapshot document) {
 //   @override
 //   String toString() => "Record<$name:$votes>";
 // }
-

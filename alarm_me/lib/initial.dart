@@ -1,7 +1,9 @@
 import 'package:alarm_me/Interfaces/Interfaces/SplashScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'Constatnts/MainTheme.dart';
+import 'Constatnts/c.dart';
 import 'Interfaces/Interfaces/AlarmInterface/AlarmInterface.dart';
 import 'Interfaces/Interfaces/Home.dart';
 import 'Interfaces/Interfaces/LoginInterface/Login.dart';
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
 
       routes: <String,WidgetBuilder>{
-        '/Home' : (BuildContext context) => new Home(),
+        '/Home' : (BuildContext context) => new Home(user: C.user),
         '/Login' : (BuildContext context) => new Login(),
         '/Register' : (BuildContext context) => new Register(),
         // '/Settings' : (BuildContext context) => new Settings(),
