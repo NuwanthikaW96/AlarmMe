@@ -1,15 +1,20 @@
+import 'package:alarm_me/Classes/Alarm.dart';
+import 'package:alarm_me/Classes/AlarmLibrary.dart';
+import 'package:alarm_me/Interfaces/Interfaces/AlarmInterfaceEdit/AlarmInterfaceEdit.dart';
 import 'package:alarm_me/Interfaces/Layout/BaseAppBar.dart';
+import 'package:background_location/background_location.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
+import '../../Constatnts/c.dart';
+import 'AlarmInterfaceNew/AlarmInterfaceNew.dart';
 
 class Home extends StatefulWidget {
   final FirebaseUser user;
 
   Home({this.user});
-  
+
   @override
   _HomeState createState() {
     return _HomeState();
@@ -17,30 +22,72 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+
+  String latitude = "waiting...";
+  String longitude = "waiting...";
+  //LatLng ourLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    print("""\n
+    Latitude:  $latitude
+    Longitude: $longitude
+    """);
+
+    BackgroundLocation.startLocationService();
+    BackgroundLocation.getLocationUpdates((location) {
+      setState(() {
+        this.latitude = location.latitude.toString();
+        this.longitude = location.longitude.toString();
+        GeoPoint _temp = new GeoPoint(location.latitude, location.longitude);
+        AlarmLibrary.check(_temp, _scaffoldKey);
+        // LatLng _temp = LatLng(double.parse(latitude), double.parse(longitude));
+        // if (checkIfArrived(_temp, _pos2.target)) {
+        //   this.check = "Arrived";
+        // } else {
+        //   this.check = "Still Waiting";
+        // }
+      });
+
+      print("""\n
+    Latitude:  $latitude
+    Longitude: $longitude
+    """);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(C.user.email + "dsandjadajdaksjhkdjaks");
     return Scaffold(
+      key: _scaffoldKey,
       appBar: BaseAppBar(),
       body: StreamBuilder(
         stream: Firestore.instance
-        .collection('Alarms')
-        .where('UID', isEqualTo: widget.user.uid)
-        .snapshots(),
+            .collection('Alarms')
+            .where('UID', isEqualTo: widget.user.uid)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return new Text('Loading...');
           return new ListView.builder(
-            itemCount: snapshot.data.documents.length,
-            itemBuilder: (context, index) =>
-              _buildListItem(snapshot.data.documents[index]),
-          );
+              itemCount: snapshot.data.documents.length,
+              itemBuilder: (context, index) {
+                print("addasdaadasdasd");
+                return _buildListItem(snapshot.data.documents[index], context);
+
+                // print (snapshot.data.document.length);
+              });
         },
       ),
-      
-
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.alarm_add),
         onPressed: () {
-          null;
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => AlarmInterfaceNew()));
         },
         tooltip: "Add an Alarm",
       ),
@@ -48,32 +95,66 @@ class _HomeState extends State<Home> {
   }
 }
 
+// Widget _fireSearch(String queryText) {
+//   return new StreamBuilder(
+//     stream: Firestore.instance
+//         .collection('Alarms')
+//         .where('UID', isEqualTo: queryText)
+//         .snapshots(),
+//     builder: (context, snapshot) {
+//       if (!snapshot.hasData) return new Text('Loading...');
+//       return new ListView.builder(
+//           itemCount: snapshot.data.documents.length,
+//           itemBuilder: (context, index) {
+//             print(snapshot.data.document[index].toString());
+//             //print (snapshot.data.documents.length);
+//             print("dsajklajdklasdksa");
+//             return _buildListItem(snapshot.data.documents[index]);
+//           });
+//     },
+//   );
+// }
 
+Widget _buildListItem(DocumentSnapshot document, BuildContext context) {
+  String _dId = document.documentID;
+  GeoPoint _geoPoint = document['location'];
+  String _name = document['Name'];
+  bool _enabled = document['enabled'];
+  String _uid = document['UID'];
+  String _reminder = document['reminder'];
 
-Widget _fireSearch(String queryText) {
-  return new StreamBuilder(
-    stream: Firestore.instance
-    .collection('Alarms')
-    .where('UID', isEqualTo: queryText)
-    .snapshots(),
-    builder: (context, snapshot) {
-      if (!snapshot.hasData) return new Text('Loading...');
-      return new ListView.builder(
-        itemCount: snapshot.data.documents.length,
-        itemBuilder: (context, index) =>
-            _buildListItem(snapshot.data.documents[index]),
-      );
-    },
+  Alarm _alarm = new Alarm(
+      dId: _dId,
+      enabled: _enabled,
+      geoPoint: _geoPoint,
+      name: _name,
+      reminder: _reminder,
+      uid: _uid);
+  AlarmLibrary.addAlarm(_alarm);
+
+  return Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: C.primaryColour),
+        borderRadius: BorderRadius.circular(5.0),
+      ),
+      child: new ListTile(
+        title: Center(child: new Text(document['Name'])),
+        subtitle: Column(
+          children: <Widget>[
+            new Text("Latitude :" + _geoPoint.latitude.toString()),
+            new Text("Longitude :" + _geoPoint.longitude.toString()),
+          ],
+        ),
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => AlarmInterfaceEdit(alarm: _alarm))),
+      ),
+    ),
   );
 }
-
-Widget _buildListItem(DocumentSnapshot document) {
-  return new ListTile(
-    title: document['title'],
-    subtitle: document['subtitle'],
-  );
-}
-
 
 // class MyHomePage extends StatefulWidget {
 //   @override
@@ -148,4 +229,3 @@ Widget _buildListItem(DocumentSnapshot document) {
 //   @override
 //   String toString() => "Record<$name:$votes>";
 // }
-

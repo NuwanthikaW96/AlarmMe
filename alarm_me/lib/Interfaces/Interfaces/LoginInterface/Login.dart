@@ -14,7 +14,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String _email, _password;
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _validationController = new TextEditingController();
   bool _autoActivate = false;
 
   @override
@@ -151,6 +150,9 @@ class _LoginState extends State<Login> {
       try{
         AuthResult res= (await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password)) ;
         FirebaseUser user=res.user;
+        C.user = user;
+        print(user.email);
+        print ("asljdilqjdijqd");
         Navigator.push(context, MaterialPageRoute(builder: (context) => Home(
             user: user)));
       }

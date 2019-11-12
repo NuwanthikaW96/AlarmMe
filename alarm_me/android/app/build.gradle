@@ -70,3 +70,26 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
+configurations.all {
+resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+    def requested = details.requested
+    if (requested.group == 'com.google.android.gms') {
+        if (!requested.name.startsWith("multidex")) {
+            details.useVersion '17.0.0'
+        }
+     }
+
+   }
+}
+
+configurations.all {
+resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+    def requested = details.requested
+    if (requested.group == 'androidx.core') {
+        if (!requested.name.startsWith("multidex")) {
+            details.useVersion '1.0.1'
+        }
+     }
+
+   }
+}

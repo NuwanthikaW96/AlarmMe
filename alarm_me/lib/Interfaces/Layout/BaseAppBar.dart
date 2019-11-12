@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -39,18 +40,12 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           tooltip: "Home",
         ),
         IconButton(
-          icon: Icon(Icons.account_circle),
-          onPressed: (){
-            null;
+          icon: Icon(Icons.backspace),
+          onPressed: () async{
+            await FirebaseAuth.instance.signOut();
+            _goTo(context,'/Login');
           },
           tooltip: "Profile",
-        ),
-        IconButton(
-          icon: Icon(Icons.help),
-          onPressed: () {
-            null;
-          },
-          tooltip: "Help",
         ),
       ],
       automaticallyImplyLeading: false,

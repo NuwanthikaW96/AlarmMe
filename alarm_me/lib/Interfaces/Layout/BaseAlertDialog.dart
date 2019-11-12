@@ -6,9 +6,7 @@ class BaseAlertDialog extends StatelessWidget {
   String _title;
   String _content;
   String _yes;
-  String _no;
   Function _yesOnPressed;
-  Function _noOnPressed;
 
   BaseAlertDialog(
       {String title,
@@ -20,9 +18,7 @@ class BaseAlertDialog extends StatelessWidget {
     this._title = title;
     this._content = content;
     this._yesOnPressed = yesOnPressed;
-    this._noOnPressed = noOnPressed;
     this._yes = yes;
-    this._no = no;
   }
 
   @override
